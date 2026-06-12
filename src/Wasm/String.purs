@@ -1,10 +1,8 @@
--- | WasmBase `Wasm.String` (ADR 0026 / 0030): the **first-order, byte-level** `$Str` primitives the
--- | higher-level `Data.String.*` code-point operations are built on. A `String` is a UTF-8 byte
--- | array (ADR 0001); these expose it as bytes — the Rust `.as_bytes()` / `.bytes()` analog — so the
--- | code-point layer (`length` / `charAt` / `take` / …, written as PureScript that decodes UTF-8)
--- | can run standalone on wasm and *specialize* (ADR 0027), instead of falling back to a host JS
--- | import. Per ADR 0026, `Wasm.*` is first-order only — no HOFs, no `Prelude`. All types are `Prim`
--- | (`String` / `Int`).
+-- | The **first-order, byte-level** `$Str` primitives the higher-level `Data.String.*` 
+-- | code-point operations are built on. A `String` is a UTF-8 byte array; these expose 
+-- | it as bytes — the Rust `.as_bytes()` / `.bytes()` analog — so the code-point layer
+-- | (`length` / `charAt` / `take` / …, written as PureScript that decodes UTF-8) can run 
+-- | standalone on wasm and can be specialized by purs-wasm optimizer.
 -- |
 -- | "Code unit = byte" lives here, deliberately NOT in `Data.String.CodeUnits` (which adopts
 -- | code-point semantics on this backend; ADR 0030). The `foreign import`s resolve to **intrinsics**

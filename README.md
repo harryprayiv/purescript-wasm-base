@@ -16,6 +16,8 @@ It contains only *first-order* definitions and depends on no other package.
   runs on stock `purs` / `purs-backend-es`** — it is not locked to `purs-wasm`. On the wasm
   backend the JS foreigns are ignored (the intrinsic wins in the provider ladder; see
   [ADR-0014](https://github.com/purs-wasm/purescript-backend-wasm/blob/main/docs/design-decisions/0014-user-ffi-resolution-and-marshalling.md)).
+  In foreign js, we intentionally uses arrow functions only. Because purs-wasm targets Wasm-GC-capable
+  JS runtimes, arrow functions are universally available in practice.
 
 - **Application authors should avoid using this API directly**, except in special cases. It
   is deliberately `unsafe` and low-level — unchecked indexing, manual allocation and in-place
