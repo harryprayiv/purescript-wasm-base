@@ -4,7 +4,9 @@
 module Wasm.Int64
   ( Int64
   , fromInt
-  , toInt
+  , fromHiLo
+  , lowBits
+  , hiBits
   , and
   , or
   , xor
@@ -20,19 +22,27 @@ module Wasm.Int64
 
 foreign import data Int64 :: Type
 
-foreign import fromInt :: Int -> Int64 -- i64.extend_i32_s
-foreign import toInt :: Int64 -> Int -- i32.wrap_i64 (low 32 bits)
+foreign import fromInt :: Int -> Int64 -- i64.extend_i32_s (sign-extends)
+
+-- | Build a 64-bit value from its high and low 32-bit words, each zero-extended:
+-- | `(hi << 32) | (lo & 0xffffffff)`. Unlike `fromInt`, the low word does not
+-- | sign-extend into the high half, so full-width constants whose low word has its
+-- | top bit set are expressible directly, e.g. `fromHiLo 0x80000000 0x80008008`.
+foreign import fromHiLo :: Int -> Int -> Int64
+
+foreign import lowBits :: Int64 -> Int -- low 32 bits: i32.wrap_i64 (lossy)
+foreign import hiBits :: Int64 -> Int -- high 32 bits: i32.wrap_i64 (i64.shr_u x 32)
 
 foreign import and :: Int64 -> Int64 -> Int64
 foreign import or :: Int64 -> Int64 -> Int64
 foreign import xor :: Int64 -> Int64 -> Int64
 foreign import complement :: Int64 -> Int64
 
-foreign import shl :: Int64 -> Int64 -> Int64
-foreign import shr :: Int64 -> Int64 -> Int64 -- arithmetic, i64.shr_s
-foreign import zshr :: Int64 -> Int64 -> Int64 -- logical, i64.shr_u
-foreign import rotl :: Int64 -> Int64 -> Int64 -- i64.rotl (one instruction)
-foreign import rotr :: Int64 -> Int64 -> Int64
+foreign import shl :: Int64 -> Int -> Int64
+foreign import shr :: Int64 -> Int -> Int64 -- arithmetic, i64.shr_s
+foreign import zshr :: Int64 -> Int -> Int64 -- logical, i64.shr_u
+foreign import rotl :: Int64 -> Int -> Int64 -- i64.rotl (one instruction)
+foreign import rotr :: Int64 -> Int -> Int64
 
 foreign import eq :: Int64 -> Int64 -> Boolean
 foreign import lt :: Int64 -> Int64 -> Boolean
