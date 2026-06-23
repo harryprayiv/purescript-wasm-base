@@ -4,10 +4,10 @@ package:
     a thin PureScript bridge to the low-level operations 
     the purs-wasm provides as intrinsics
   publish:
-    version: 0.1.1
+    version: 0.1.0
     license: MIT
     location:
-      githubOwner: harryprayiv
+      githubOwner: purs-wasm
       githubRepo: purescript-wasm-base
   dependencies: []
 workspace:
