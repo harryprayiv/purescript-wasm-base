@@ -19,5 +19,5 @@ package:
       - assert
 workspace:
   packageSet:
-    registry: 77.4.0
+    registry: 77.5.0
   extraPackages: {}

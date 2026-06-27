@@ -1,15 +1,9 @@
--- | WasmBase `Wasm.Array` (ADR 0026): the **first-order** array primitives the higher-order
--- | array combinators are built on. Per ADR 0026's rule, `Wasm.*` is first-order *only* — no
--- | HOFs and no `Prelude` (WasmBase sits between `Prim` and `Prelude`). `map` / `foldl` /
--- | `filter` / … are *not* here; they belong in the library layer (the repositioned `ulib`'s
--- | `Data.Array`), written as PureScript over these primitives so their closures specialize
--- | (ADR 0027). All types are `Prim` (`Array` / `Int`).
--- |
+-- | The **first-order** array primitives the higher-order array combinators are built on. 
 -- | The `foreign import`s resolve to **intrinsics** on the wasm backend
 -- | (`Intrinsics.qualifiedIntrinsic` — `Wasm.Array.*`), so they need no `.wat`; the
 -- | accompanying `Wasm/Array.js` provides them for stock `purs` / `purs-backend-es`, so a
 -- | `wasm-base`-using project also compiles and runs on the JS backends. On wasm the JS
--- | foreigns are ignored (intrinsic wins in the provider ladder).
+-- | foreigns are ignored.
 module Wasm.Array
   ( length
   , unsafeIndex
